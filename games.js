@@ -176,6 +176,9 @@ function clearSearch(){
 
 function filterSearch(searchArg){
     search = selectElement(".nav__search").value;
+    if (search){
+        searchArg = search
+    }
     
     searchArray = [];
     const arr = gameData;
