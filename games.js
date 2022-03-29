@@ -79,7 +79,7 @@ function filterEntries(){
     if (filter){
         return filterGames();
     }else if(searchArg || search){
-        return filterSearch(searchArg);
+        return filterSearch(searchArg || search);
     }
 
     return renderGames();
@@ -175,8 +175,8 @@ function clearSearch(){
 }
 
 function filterSearch(searchArg){
-
     search = selectElement(".nav__search").value;
+    
     searchArray = [];
     const arr = gameData;
 
