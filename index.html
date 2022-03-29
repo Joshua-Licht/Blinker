@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blinker</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://kit.fontawesome.com/d5d888400d.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("DXNzMeWDzepH8XZqC");
+        })();
+    </script>
+</head>
+
+<body>
+    <section id="landing" class="landing__container">
+        <nav>
+            <div class="nav__container">
+                <div class="nav__header">
+                    <img src="./assets/blinker-icon.png" alt="" class="logo">
+                    <ul class="nav__link--list">
+                        <li class="nav__link">
+                            <a href="./index.html" class="
+                                nav__link--anchor--black
+                                link__hover-effect
+                                link__hover-effect--black
+                            ">Home</a>
+                        </li>
+                        <li class="nav__link">
+                            <a href="./games.html" class="
+                                nav__link--anchor--black
+                                link__hover-effect
+                                link__hover-effect--black
+                            ">Find a Game</a>
+                        </li>
+                        <li class="nav__link" onclick="toggleModal()">
+                            <a href="#" class="
+                                nav__link--anchor--white
+                                nav__link--btn
+                                btn__dark
+                            ">Contact</a>
+                        </li>
+                    </ul>
+                    <button class="btn__menu" onclick="openMenu()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="menu__backdrop">
+                <button class="btn__menu btn__menu--close" onclick="closeMenu()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <ul class="menu__links">
+                    <li class="menu__list">
+                        <a class="menu__link" href="#" onclick="closeMenu()">Hone</a>
+                    </li>
+                    <li class="menu__list">
+                        <a class="menu__link" href="#features" onclick="closeMenu()">Books</a>
+                    </li>
+                    <li class="menu__list">
+                        <a class="menu__link no-cursor" href="" onclick="closeMenu()">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="modal">
+            <div class="modal__half modal__contact">
+                <i class="fas fa-times modal__exit click" onclick="toggleModal()"></i>
+                <h3 class="modal__title modal__title--contact">Let's have a chat!</h3>
+                <h4 class="modal__sub-title modal__sub-title--contact">I'm currently open to new oppertunities.</h4>
+                <form id="contct__form" onsubmit="contact(event)">
+                    <div class="form__item">
+                        <label class="form__item--label">Name</label>
+                        <input type="text" name="user_name" class="input" required></input>
+                    </div>
+                    <div class="form__item">
+                        <label class="form__item--label">E-mail</label>
+                        <input type="email" name="user_email" class="input" required></input>
+                    </div>
+                    <div class="form__item">
+                        <label class="form__item--label">Message</label>
+                        <textarea type="text" name="message" class="input" required></textarea>
+                    </div>
+                    <button id="contact__submit" class="form__submit">
+                        Send it my way
+                    </button>
+                </form>
+                <div class="modal__overlay modal__overlay--loading">
+                    <i class="fas fa-spinner"></i>
+                </div>
+                <div class="modal__overlay modal__overlay--success">
+                    Thanks for the message! Looking forward to speaking to you soon.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <section id="heading">
+            <div class="container">
+                <div class="row">
+                    <header class="header">
+                        <div class="header__content">
+                            <h1 class="title">
+                                America's Largest Game Collection platform
+                            </h1>
+                            <h2 class="sub-title">
+                                Find the Game you want with <span class="txt__color">Blinker</span>
+                            </h2>
+                        </div>
+                        <div class="header__input">
+                            <input class="header__search" type="text" placeholder="Search by Title, Year or Genre" onkeyup="filterSearch(event)">
+                            <button class="header__input--btn" onclick="getSearch()">
+                                <svg data-v-2a11e7ca="" aria-hidden="true" focusable="false" data-prefix="fas"
+                                    data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 512 512" class="header__input--btn-img">
+                                    <path data-v-2a11e7ca="" fill="currentColor"
+                                        d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"
+                                        class=""></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <img src="./assets/building.png" alt="" class="header__img">
+                    </header>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <div class="row footer__row">
+                <a href="#" class="footer__anchor">
+                    <figure class="footer__logo">
+                        <img src="./assets/blinker-icon.png" class="footer__logo--img" alt="">
+                    </figure>
+                    <span class="footer__logo--popper">
+                        Top
+                        <i class="fas fa-arrow-up"></i>
+                    </span>
+                </a>
+                <div class="footer__social--list">
+                    <a href="https://github.com/Joshua-Licht" target="_blank" class="
+                        footer__social--link
+                        link__hover-effect
+                        link__hover-effect--white
+                    ">
+                        Github
+                    </a>
+                    <a href="https://www.linkedin.com/in/joshua-licht-3715a51b9/" target="_blank" class="
+                        footer__social--link
+                        link__hover-effect
+                        link__hover-effect--white
+                    ">
+                        Linkedin
+                    </a>
+                    <a href="#" onclick="toggleModal()" class="
+                        footer__social--link
+                        link__hover-effect
+                        link__hover-effect--white
+                    ">
+                        Contact
+                    </a>
+                </div>
+                <div class="footer__copyright">Copyright &copy; Made by Joshua Licht</div>
+            </div>
+        </div>
+    </footer>
+</body>
+<script src="./index.js"></script>
+</html>
