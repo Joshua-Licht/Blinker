@@ -2,29 +2,17 @@ let isModalOpen = false;
 /*
     drop down menu
 */
+
+function selectElement(selector){
+    return document.querySelector(selector);
+}
+
 function openMenu(){
     document.body.classList += " menu--open"
 }
 
 function closeMenu(){
     document.body.classList.remove('menu--open')
-}
-
-function selectElement(selector){
-    return document.querySelector(selector);
-}
-
-function getSearch(){
-    const searchArg = selectElement(".header__search").value;
-    localStorage.setItem("search", searchArg);
-    window.location.href = `./games.html`;
-}
-
-function filterSearch(event){
-    event.preventDefault();
-    if (event.keyCode === 13 && event.target.value !== ""){
-        getSearch();
-    }
 }
 
 function toggleModal(){
@@ -59,3 +47,20 @@ function contact(event){
     })
 }
 //console.log(window.location.origin); 
+
+/*
+    search bar
+*/
+
+function getSearch(){
+    const searchArg = selectElement(".header__search").value;
+    localStorage.setItem("search", searchArg);
+    window.location.href = `./games.html`;
+}
+
+function filterSearch(event){
+    event.preventDefault();
+    if (event.keyCode === 13 && event.target.value !== ""){
+        getSearch();
+    }
+}

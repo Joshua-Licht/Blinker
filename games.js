@@ -64,8 +64,9 @@ function contact(event){
 // api handler: https://rapidapi.com/digiwalls/api/free-to-play-games-database
 
 const gameWrapper = document.querySelector('.games');
-const searchArg = localStorage.getItem("search");
 const base = `https://free-to-play-games-database.p.rapidapi.com/api/games`;
+const selector = document.getElementById('filter');
+let searchArg = localStorage.getItem("search");
 let entries;
 let games;
 let gameData;
@@ -74,23 +75,114 @@ let search;
 let filterArray = [];
 let searchArray = [];
 
-// filter dropdown handler
-function filterEntries(){
-    if (filter){
-        return filterGames();
-    }else if(searchArg || search){
-        return filterSearch(searchArg || search);
-    }
+/*
+        General function
+*/
 
-    return renderGames();
+// Page Refresh handler
+function initialize(){
+    let data = window.performance.getEntriesByType("navigation")[0].type;
+
+    // Checks for page reload
+    if (data === "reload"){
+        resetSearch();
+        resetSelector()
+    }
 }
 
-// slider handler
+//get element by class name
+function selectElement(selector){
+    return document.querySelector(selector);
+}
+
+function resetSelector(){
+    return selector.value = "SORT";
+}
+// reset search bar entry
+function resetSearch(){
+    searchArg = "";
+    document.querySelector(".nav__search").value = "";
+}
+
+// slider counter
 function getEntries(){
     return entries = document.getElementById("slider").value;
 }
 
-// main api handling
+// Slider handler
+function filterEntryResults(){
+    let curFilter = selector.value
+
+    if (filter && curFilter !== "SORT"){
+        filterGameResults();
+    }else if(search || searchArg){
+        resetSelector();
+        filterSearch(search || searchArg);
+    }else{
+        renderGames();
+    }
+}
+
+// sorts dropdown options
+function filterGameResults(){
+    filter = document.getElementById("filter").value;
+
+    if (filter === "Alphabetical"){
+        fetch('https://free-to-play-games-database.p.rapidapi.com/api/games?sort-by=alphabetical', options)
+        .then(response => response.json())
+        .then(response => gameWrapper.innerHTML = response.map(game => gameHTML(game)).slice(0, getEntries() || 6).join(''))
+        .catch(err => console.error(err));
+    }else if (filter !== "Alphabetical"){
+        let prop = "genre"
+        let arg = filter
+        sortArr(prop, arg);
+    }else{
+        renderGames();
+    }
+}
+
+// search button handler
+function getSearch(){
+    resetSelector();
+    search = selectElement(".nav__search").value;
+
+    if (search){
+        filterSearch(search)
+    }
+}
+
+/*
+    Search Bar handler
+*/
+function filterSearch(search){
+    searchArray = [];
+    const arr = gameData;
+    let arg = searchArg;
+
+    if (search && search !== searchArg){
+        arg = search;
+    }
+
+    for (let i = 0; i < arr.length; ++i){
+        if (
+            arr[i]["title"].toLocaleLowerCase().includes(arg.toLocaleLowerCase()) ||
+            arr[i]["genre"].toLocaleLowerCase().includes(arg.toLocaleLowerCase()) ||
+            arr[i]["release_date"].split("-", 1).join(" ").includes(arg)
+            )
+         {
+            searchArray.push(arr[i]);
+            selector.value = "SORT";
+        }  
+    }
+
+    gameWrapper.innerHTML = searchArray.map(game => gameHTML(game)).slice(0, getEntries() || 6).join('');
+
+    return searchArray;
+}
+
+/*
+    Api Handler
+*/
 const options = {
 	method: 'GET',
 	headers: {
@@ -99,7 +191,9 @@ const options = {
 	}
 };
 
-// Main Function
+/*
+    Main Function
+*/
 async function renderGames(){
 
     gameWrapper.classList += ' .games__loading';
@@ -113,9 +207,9 @@ async function renderGames(){
     }
 
     if (filter){
-        filterGames()
-    }else if(searchArg || search){
-        filterSearch(searchArg || search)
+        filterGameResults()
+    }else if(search || searchArg){
+        filterSearch(search || searchArg)
     }else{
         gameWrapper.innerHTML = gameData.map(game => gameHTML(game)).slice(0, getEntries() || 6).join('');
     }
@@ -123,35 +217,10 @@ async function renderGames(){
     return gameData;
 }
 
-
-// resets options dropdown to default
-function initialize(){
-    const selector = document.getElementById('filter');
-    selector.value = "SORT";
-}
-
-// sorts dropdown options
-function filterGames(){
-    filter = document.getElementById("filter").value;
-    
-    if (filter === "Alphabetical"){
-        fetch('https://free-to-play-games-database.p.rapidapi.com/api/games?sort-by=alphabetical', options)
-        .then(response => response.json())
-        .then(response => gameWrapper.innerHTML = response.map(game => gameHTML(game)).slice(0, getEntries() || 6).join(''))
-        .catch(err => console.error(err));
-    }else if (filter !== "Alphabetical"){
-        console.log(filter);
-        let prop = "genre"
-        let arg = filter
-        sortArr(gameData, prop, arg);
-    }else{
-        renderGames();
-    }
-}
-
 // array, array catagory, catagory value
 // sorting array function
-function sortArr(arr, prop, arg){
+function sortArr(prop, arg){
+    const arr = gameData;
     filterArray = [];
     for (let i = 0; i < arr.length; ++i){
         if (arr[i][prop] === arg){
@@ -161,43 +230,6 @@ function sortArr(arr, prop, arg){
     gameWrapper.innerHTML = filterArray.map(game => gameHTML(game)).slice(0, getEntries() || 6).join('');
 
     return filterArray;
-}
-
-/*
-    Search Filter
-*/
-function selectElement(selector){
-    return document.querySelector(selector);
-}
-
-function clearSearch(){
-    selectElement(".nav__search").innerHTML = "";
-}
-
-function filterSearch(searchArg){
-    search = selectElement(".nav__search").value;
-    if (search){
-        searchArg = search
-    }
-    
-    searchArray = [];
-    const arr = gameData;
-
-    clearSearch();
-    for (let i = 0; i < arr.length; ++i){
-        if (
-            arr[i]["title"].toLocaleLowerCase().includes(!searchArg ? search.toLocaleLowerCase() : searchArg.toLocaleLowerCase()) ||
-            arr[i]["genre"].toLocaleLowerCase().includes(!searchArg ? search.toLocaleLowerCase() : searchArg.toLocaleLowerCase()) ||
-            arr[i]["release_date"].split("-", 1).join(" ").includes(!searchArg ? search : searchArg)
-            )
-         {
-            searchArray.push(arr[i])
-        }  
-    }
-
-    gameWrapper.innerHTML = searchArray.map(game => gameHTML(game)).slice(0, getEntries() || 6).join('');
-
-    return searchArray;
 }
 
 /*

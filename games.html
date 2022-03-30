@@ -54,8 +54,8 @@
                         Browse our Games
                     </h1>
                     <div class="nav__input">
-                        <input type="text" id="searchFilter" class="nav__search" placeholder="Search by Title, Year or Genre" onkeyup="filterSearch()">
-                        <div class="nav__input--btn" onclick="filterSearch()">
+                        <input type="text" id="searchFilter" class="nav__search" placeholder="Search by Title, Year or Genre" onkeyup="getSearch()">
+                        <div class="nav__input--btn" onclick="getSearch()">
                             <svg data-v-2a11e7ca="" aria-hidden="true" focusable="false" data-prefix="fas"
                                 data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
                                 class="nav__input--btn-img">
@@ -123,13 +123,15 @@
                     <div class="filter__container">
                         <h1 class="filter__title">Search results:</h1>
                         <div class="slide__container">
-                            <input type="range" min="1" max="30" value="6" id="slider" class="slider noscroll" id="slider" onchange="filterEntries(event)">
-                            <p class=" low">1</p>
-                            <p class="scale">Enties: <span id="value">6</span></p>
-                            <p class="scale high">30</p>
+                            <div class="slide__container--info">
+                                <p class=" low">1</p>
+                                <p class="scale">Enties: <span id="value">6</span></p>
+                                <p class="scale high">30</p>
+                            </div>
+                            <input type="range" min="1" max="30" value="6" id="slider" class="slider noscroll" id="slider" onchange="filterEntryResults(event)">
                         </div>
                         
-                        <select id="filter" onchange="filterGames(event)">
+                        <select id="filter" onchange="filterGameResults(event)">
                             <option value="SORT" disabled="" selected="selected" default>Sort</option>
                             <option value="Alphabetical">Sort, Alphabetically</option>
                             <option value="Shooter">Genre, Shooter</option>

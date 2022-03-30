@@ -648,22 +648,43 @@ nav{
     Progress Bar
 */
 
+
+/*
+    Filter
+*/
+.filter__container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    width: 100%;
+}
+
+.filter__title {
+    margin-bottom: 0;
+    font-size: 28px;
+    color: #6030b1;
+}
+
 /*
     Slider
 */
 .slide__container{
     width: 32%;
-    height: 100%;
+    height: 60px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .slider{
     -webkit-appearance: none;
     width: 100%;
     height: 20px;
-    background: linear-gradient(90deg, rgb(214,214,214) 60%, rgb(214,214,214) 60%);
     outline: none;
     opacity: 0.7;
+    background: linear-gradient(90deg, rgb(214,214,214) 60%, rgb(214,214,214) 60%);
     -webkit-transition: 0.2s;
     transition: opacity 0.2s;
     border-radius: 12px;
@@ -690,40 +711,16 @@ nav{
     border-radius: 50%;
     cursor: pointer;
 }
-.slide__container p{
-    position: absolute;
-    transform: translateX(-50%);
-    opacity: 0.7;
-}
-.scale{
-    position: absolute;
-    top: -150%;
-    left: 50%;
-}
-.low{
-    top: -150%;
-    left: 5%;
-}
-.slide__container .high{
-    top: -150%;
-    left: 95%; 
-}
-/*
-    Filter
-*/
-.filter__container{
+.slide__container--info{
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 24px;
+    padding: 0 8px;
 }
 
-.filter__title {
-    margin-bottom: 0;
-    font-size: 28px;
-    color: #6030b1;
-}
 
+/*
+    options
+*/
 select {
     background-color: #fff;
     border-radius: 4px;
@@ -742,7 +739,7 @@ select:hover{
 }
 
 /*
-    title
+    game tiles
 */
 .games{
     display: flex;
@@ -986,20 +983,24 @@ footer{
     #searchFilter::placeholder{
         font-size: 20px;
     }
+    /*
+        filter
+    */
     .filter__container{
+        display: flex;
         flex-direction: column;
         height: 150px;
     }
-    .filter__title{
-        margin-bottom: 10px;
-    }
     .slide__container{
         width: 56%;
-        margin: 28px auto 30px;
+        margin: 0 auto;
     }
     .slider::-moz-range-thumb{
         height: 32px;
         width: 32px;
+    }
+    .filter__title{
+        margin-bottom: 10px;
     }
     .slider{
         height: 15px;
@@ -1009,6 +1010,7 @@ footer{
         width: 100%;
         max-width: 300px;
         transition: all 300ms ease;
+        margin-top: 24px;
     }
 }  
 
@@ -1056,6 +1058,13 @@ footer{
         margin: 28px auto;
         height: 64px;
         width: 100%;
+    }
+    .filter__container{
+        justify-content: center;
+        align-items: center;
+    }
+    .slide__container{
+        width: 80%;
     }
     .footer__logo--img{
         width: 80%;
